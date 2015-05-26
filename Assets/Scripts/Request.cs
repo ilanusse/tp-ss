@@ -12,7 +12,7 @@ public class Request : MonoBehaviour {
 	private float step;
 	public int tupleId;
 	public bool prefab;
-
+	public float lossProbability;
 	public List<Node> visited = new List<Node> ();
 
 	void Start () {
@@ -33,9 +33,12 @@ public class Request : MonoBehaviour {
 
 	void deliverInfo() {
 		if (Vector3.Distance (transform.position, source.transform.position) <= 0.1) {
-				deliver ();
+			if (UnityEngine.Random.value <= lossProbability) {
+				requestLost();
+			}
+			deliver ();
 		} else {
-				transform.position = Vector3.MoveTowards (transform.position, source.transform.position, step);
+			transform.position = Vector3.MoveTowards (transform.position, source.transform.position, step);
 		}
 	}
 
@@ -44,8 +47,17 @@ public class Request : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
+	void requestLost() {
+		Debug.Log("REQUEST LOST :(");
+		Destroy (gameObject);
+	}
+
+
 	void findInfo() {
 		if (Vector3.Distance (transform.position, target.gameObject.transform.position) <= 0.1) {
+			if (UnityEngine.Random.value <= lossProbability) {
+				requestLost();
+			}
 			checkIfInfoFound();
 		} else {
 			transform.position = Vector3.MoveTowards (transform.position, target.transform.position, step);
