@@ -14,6 +14,7 @@ public class Request : MonoBehaviour {
 	public bool prefab;
 	public float lossProbability;
 	public List<Node> visited = new List<Node> ();
+	public Material foundColor;
 
 	void Start () {
 		foundInfo = false;
@@ -67,6 +68,7 @@ public class Request : MonoBehaviour {
 	void checkIfInfoFound() {
 		if (target.hasTuple(tupleId)) {
 			foundInfo = true;
+			renderer.material = foundColor;
 		} else {
 			visited.Add(target);
 			target = target.getNewTarget(visited);
