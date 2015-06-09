@@ -6,6 +6,7 @@ public class RequestSpawner : MonoBehaviour {
 	public City[] cities;
 	public GameObject prefab;
 	public int maxTupleId;
+	public Statistics stats;
 
 	private float[] probDistribution;
 	private int totalPopulation;
@@ -33,6 +34,7 @@ public class RequestSpawner : MonoBehaviour {
 		request.source = city;
 		request.tupleId = Random.Range (0, maxTupleId + 1);
 		request.prefab = false;
+		stats.addCreated ();
 	}
 
 	City getRandomCity() {

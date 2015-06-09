@@ -10,15 +10,21 @@ public class Request : MonoBehaviour {
 	public bool foundInfo;
 	public float velocity;
 	private float step;
+	private float baseVelocity;
 	public int tupleId;
 	public bool prefab;
 	public float lossProbability;
 	public List<Node> visited = new List<Node> ();
 	public Material foundColor;
 
+	public Statistics stats;
+	private float timeElapsed;
+
 	void Start () {
 		foundInfo = false;
-		step = velocity * Time.fixedDeltaTime;
+		baseVelocity = velocity;
+		resetVelocity ();
+		timeElapsed = 0;
 	}
 	
 	// Update is called once per frame
@@ -44,15 +50,19 @@ public class Request : MonoBehaviour {
 	}
 
 	void deliver() {
-		Debug.Log("DELIVERED :)");
+		stats.addDelivered (this);
 		Destroy (gameObject);
 	}
 
 	void requestLost() {
-		Debug.Log("REQUEST LOST :(");
+		stats.addDropped ();
 		Destroy (gameObject);
 	}
 
+	void resetVelocity() {
+		velocity = GaussGenerator.getNormal (velocity, velocity / 10);
+		step = velocity * Time.fixedDeltaTime;
+	}
 
 	void findInfo() {
 		if (Vector3.Distance (transform.position, target.gameObject.transform.position) <= 0.1) {
@@ -63,9 +73,15 @@ public class Request : MonoBehaviour {
 		} else {
 			transform.position = Vector3.MoveTowards (transform.position, target.transform.position, step);
 		}
+		timeElapsed += Time.fixedDeltaTime * 4;
+	}
+
+	public float getTimeElapsed() {
+		return timeElapsed;
 	}
 
 	void checkIfInfoFound() {
+		timeElapsed += target.checkInfoTime ();
 		if (target.hasTuple(tupleId)) {
 			foundInfo = true;
 			renderer.material = foundColor;
@@ -73,5 +89,6 @@ public class Request : MonoBehaviour {
 			visited.Add(target);
 			target = target.getNewTarget(visited);
 		}
+		resetVelocity ();
 	}
 }
