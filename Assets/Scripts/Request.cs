@@ -73,7 +73,7 @@ public class Request : MonoBehaviour {
 		} else {
 			transform.position = Vector3.MoveTowards (transform.position, target.transform.position, step);
 		}
-		timeElapsed += Time.fixedDeltaTime * 4;
+		timeElapsed += Time.fixedDeltaTime * 70;
 	}
 
 	public float getTimeElapsed() {

@@ -15,7 +15,7 @@ public class Node : MonoBehaviour {
 	public float checkInfoTime() {
 		// APPROX 10 TUPLES PER MS, POSTGRESQL BENCHMARK
 		int tupleCount = maxTupleId - minTupleId;
-		return GaussGenerator.getNormal (tupleCount / 10, tupleCount / (20 * 10));
+		return GaussGenerator.getNormal (tupleCount / 1000, tupleCount / (20 * 1000));
 	}
 
 	public Node getNewTarget(List<Node> visited) {

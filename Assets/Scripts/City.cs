@@ -3,6 +3,6 @@ using System.Collections;
 
 public class City : MonoBehaviour {
 
-	public int population;
+	public float population; // IN MILLIONS
 	public Node closestNode;
 }

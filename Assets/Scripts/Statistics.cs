@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Statistics : MonoBehaviour {
@@ -7,6 +8,10 @@ public class Statistics : MonoBehaviour {
 	private int createdRequests;
 	private int deliveredRequests;
 	private float totalDeliveryTime;
+	
+	public Text droppedText;
+	public Text deliveredText;
+	public Text avgText;
 	// Use this for initialization
 	void Start () {
 		droppedRequests = 0;
@@ -16,13 +21,10 @@ public class Statistics : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		Debug.Log ("Statistics: ");
-		Debug.Log ("Created: " + createdRequests);
-		Debug.Log ("Dropped: " + droppedRequests);
-		Debug.Log ("Delivered: " + deliveredRequests);
-		Debug.Log ("Total Time Elapsed: " + totalDeliveryTime);
+		droppedText.text = "Dropped Requests: " + droppedRequests.ToString();
+		deliveredText.text = "Delivered Requests: " + deliveredRequests.ToString();
 		if (deliveredRequests > 0)
-			Debug.Log ("Avg. Time Elapsed: " + totalDeliveryTime / deliveredRequests);
+			avgText.text = "Avg. Time Elapsed: " + (totalDeliveryTime / deliveredRequests).ToString("F2") + " ms";
 	}
 
 	public void addDelivered(Request req) {

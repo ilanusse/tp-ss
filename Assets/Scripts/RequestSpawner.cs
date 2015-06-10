@@ -9,7 +9,7 @@ public class RequestSpawner : MonoBehaviour {
 	public Statistics stats;
 
 	private float[] probDistribution;
-	private int totalPopulation;
+	private float totalPopulation;
 
 	void Start () {
 		probDistribution = new float[cities.Length];
@@ -18,12 +18,12 @@ public class RequestSpawner : MonoBehaviour {
 			totalPopulation += city.population;
 		}
 		for(int i = 0; i < cities.Length ; i++) {
-			probDistribution[i] = cities[i].population / (float)totalPopulation;
+			probDistribution[i] = cities[i].population / totalPopulation;
 			if (i != 0) {
 				probDistribution[i] += probDistribution[i - 1];
 			}
 		}
-		InvokeRepeating ("createRequest", 2, 2);
+		InvokeRepeating ("createRequest", 1, 0.2f);
 	}
 
 	void createRequest() {
