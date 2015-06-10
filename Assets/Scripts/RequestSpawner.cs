@@ -7,6 +7,7 @@ public class RequestSpawner : MonoBehaviour {
 	public GameObject prefab;
 	public int maxTupleId;
 	public Statistics stats;
+	public float closestNodeProbability;
 
 	private float[] probDistribution;
 	private float totalPopulation;
@@ -32,7 +33,16 @@ public class RequestSpawner : MonoBehaviour {
 		Request request = requestObj.GetComponent<Request> ();
 		request.target = city.closestNode;
 		request.source = city;
-		request.tupleId = Random.Range (0, maxTupleId + 1);
+
+		if (Random.Range ((float)0, 1) < closestNodeProbability) {
+				request.tupleId = Random.Range (city.closestNode.minTupleId + 1, city.closestNode.maxTupleId + 1);
+		} 
+		else {
+			request.tupleId = Random.Range (0, maxTupleId + 1);
+			while(request.tupleId >= city.closestNode.minTupleId && request.tupleId <= city.closestNode.maxTupleId)
+				request.tupleId = Random.Range (0, maxTupleId + 1);
+		}
+//		request.tupleId = Random.Range (0, maxTupleId + 1);
 		request.prefab = false;
 		stats.addCreated ();
 	}
